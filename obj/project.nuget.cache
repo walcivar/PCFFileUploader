@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "sIhfcop/lEGjRFDNpjDzvH1V+SJ1lIirHrJOOC2xlYNjdMN9KYIM6aFY2PDUbmBOufSULYTGm8mrvAxQycm7QA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\wilmer.alcivar\\Local source code\\PCFFileUploader\\PCFFileUploader.pcfproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wilmer.alcivar\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\wilmer.alcivar\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net462\\1.0.0\\microsoft.netframework.referenceassemblies.net462.1.0.0.nupkg.sha512",
+    "C:\\Users\\wilmer.alcivar\\.nuget\\packages\\microsoft.powerapps.msbuild.pcf\\1.14.4\\microsoft.powerapps.msbuild.pcf.1.14.4.nupkg.sha512"
+  ],
+  "logs": []
+}

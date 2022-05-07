@@ -1,0 +1,2 @@
+C:\Users\wilmer.alcivar\Local source code\PCFFileUploader\obj\Debug\PCFFileUploader.pcfproj.AssemblyReference.cache
+C:\Users\wilmer.alcivar\Local source code\PCFFileUploader\obj\Debug\PCFFileUploader.pcfproj.CoreCompileInputs.cache
