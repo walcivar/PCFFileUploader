@@ -1,0 +1,53 @@
+.PCFFileUploader\.PCFFileUploader .text-font {
+    height: 100%;
+    color: rgb(100, 108, 127);
+    line-height: 1.4rem;
+    font-family: Roboto, "Open Sans", sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+}
+
+.PCFFileUploader\.PCFFileUploader .dropzone {
+    background: #f3f3f3;
+    /*border-radius: 5px;
+    border: 2px dashed rgb(181, 188, 193, 1);
+    border-image: none;*/
+    max-width: 406px;
+    /*height: 195px;*/
+    text-align: center;
+    /* margin-left: auto;
+    margin-right: auto; */
+}
+
+/* .PCFControls\.AudioAttachmentControl .input-hidden{
+display: none;
+} */
+
+.PCFFileUploader\.PCFFileUploader .uploadImgHower {
+    margin-top: 5px;
+    height: 113px;
+    transform: scale(1.1);
+}
+
+.PCFFileUploader\.PCFFileUploader .uploadImgHowerOut {
+    height: 113px;
+    margin-top: 5px;
+}
+
+.PCFFileUploader\.PCFFileUploader .audioPlayerClose {
+    height: 31px;
+    margin-bottom: -5px;
+}
+
+.noteText {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(169, 169, 169);
+    border-image: initial;
+    width: 90%;
+}
+
+.boton {
+    margin-left: 2em
+}
