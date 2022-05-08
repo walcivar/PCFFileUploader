@@ -4,6 +4,8 @@
     <external-service-usage enabled="false"/>
     <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true"/>
     <property name="contactEntity" display-name-key="contactEntity" description-key="contactEntity" of-type="Lookup.Simple" usage="input" required="true"/>
+    <property name="supporteFiles" display-name-key="supporteFiles" description-key="supporteFiles" of-type="Multiple" usage="input" required="true"/>
+    <property name="environmentVariableFlow" display-name-key="environmentVariableFlow" description-key="environmentVariableFlow" of-type="SingleLine.Text" usage="input" required="true"/>
     <resources>
       <code path="bundle.js" order="1"/>
       <css path="css/PCFFileUploader.css" order="1"/>

@@ -6,6 +6,8 @@
 export interface IInputs {
     sampleProperty: ComponentFramework.PropertyTypes.StringProperty;
     contactEntity: ComponentFramework.PropertyTypes.LookupProperty;
+    supporteFiles: ComponentFramework.PropertyTypes.StringProperty;
+    environmentVariableFlow: ComponentFramework.PropertyTypes.StringProperty;
 }
 export interface IOutputs {
     sampleProperty?: string;

@@ -4,9 +4,8 @@ import * as Dropzone from "dropzone";
 import * as toastr from "toastr";
 
 //Supported files
-const supportedfiles = "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," +
-    "application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint," +
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+//let supportedfiles = "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation";
+//let supportedfiles = "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/png";
 
 class EntityReference
 {
@@ -52,14 +51,14 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
     private _divFile: HTMLDivElement;
     private _labelFile: HTMLLabelElement;
 
-    private _reason: HTMLSelectElement;
-    private _doctype: HTMLSelectElement;
+    //private _reason: HTMLSelectElement;
+    //private _doctype: HTMLSelectElement;
     private _textAreaNote: HTMLTextAreaElement;
     private _buttonFlow: HTMLButtonElement;
     private _buttonClose: HTMLButtonElement;
 
-    private _listReason: ComponentFramework.WebApi.Entity[];
-    private _listDocType: ComponentFramework.WebApi.Entity[];
+    //private _listReason: ComponentFramework.WebApi.Entity[];
+    //private _listDocType: ComponentFramework.WebApi.Entity[];
 
     private _attachedFile: any = {}
     private _urlSharepoint: string;
@@ -67,6 +66,8 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
     private _userName: string;
     private _contactGuid: string;
     private _contactName: string;
+    private _supportedfiles ="";
+    private _environmentVariableFlow ="";
 
     /**
      * Empty constructor.
@@ -127,19 +128,88 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         this._container.appendChild(this._divFile);
         container.appendChild(this._container);
 
-        this.onload();
-
         toastr.options.closeButton = true;
         toastr.options.progressBar = true;
         toastr.options.positionClass = "toast-bottom-left";
 
+        this._userName = Xrm.Utility.getGlobalContext().userSettings.userName;
+        //get input parameters
+        this._supportedfiles = this._context.parameters.supporteFiles.raw ? this._context.parameters.supporteFiles.raw : "";
+        this._environmentVariableFlow = this._context.parameters.environmentVariableFlow.raw ? this._context.parameters.environmentVariableFlow.raw : "";      
+        this.setFlowURL(this._environmentVariableFlow);        
+        const contactRecord = this._context.parameters.contactEntity.raw ? this._context.parameters.contactEntity.raw : undefined;
+        if(contactRecord)
+        {
+            this._contactGuid = contactRecord[0].id;
+            this._contactName = contactRecord[0].name!;
+        }
+
+        //Get all reasons
+        /*const fetchMotivos = "<fetch>" +
+            "<entity name='p3i_reason' >" +
+            "   <attribute name='p3i_name' />" +
+            "   <attribute name='p3i_code' />" +
+            "</entity>" +
+            "</fetch>";
+        
+        this._context.webAPI.retrieveMultipleRecords("p3i_reason", "?fetchXml=" + fetchMotivos).then
+        (
+        function (params: ComponentFramework.WebApi.RetrieveMultipleResponse) {
+
+            thisRefTemp._listReason = params.entities;       
+        },
+        function (error: any) {
+
+            console.log("Error recuperando los Motivos");
+        });*/
+
+        //Get all document types
+        /*const fetchTipoDocumentos = "<fetch>" +
+            "<entity name='p3i_documenttype' >" +
+            "   <attribute name='p3i_name' />" +
+            "   <attribute name='p3i_code' />" +
+            "</entity>" +
+            "</fetch>";
+
+        this._context.webAPI.retrieveMultipleRecords("p3i_documenttype", "?fetchXml=" + fetchTipoDocumentos).then
+        (
+        function (params: ComponentFramework.WebApi.RetrieveMultipleResponse) {
+
+            thisRefTemp._listDocType = params.entities;                       
+        },
+        function (error: any) {
+
+            console.log("Error recuperando los Tipos de documentos");
+        });*/
+        
+        this.onload();
+    }
+
+    private generateSrcUrl(datatype: string, fileType: string, fileContent: string): string {
+        return "data:" + datatype + "/" + fileType + ";base64, " + fileContent;
+    }
+
+    private uploadImgHower() {
+        this._imgUpload.setAttribute("class", "uploadImgHower");
+    }
+
+    private uploadImgHowerOut() {
+        this._imgUpload.setAttribute("class", "uploadImgHowerOut");
+    }
+
+    private uploadImgonClick() {
+        this._formDropZone.click();
+    }
+
+    private setFlowURL(environmentVariableFlow : string)
+    {
         const fetchSharepointParam = "<fetch version='1.0' output-format='xml-platform' mapping='logical' distinct='false'>" +
             "<entity name='environmentvariablevalue'>" +
                 "<attribute name='environmentvariablevalueid' />" +
                 "<attribute name='value' />" +
                 "<link-entity name='environmentvariabledefinition' from='environmentvariabledefinitionid' to='environmentvariabledefinitionid' link-type='inner' alias='ag'>" +
                     "<filter type='and'>" +
-                        "<condition attribute='schemaname' operator='eq' value='p3i_sharepointflowurl' />" +
+                        "<condition attribute='schemaname' operator='eq' value='"+environmentVariableFlow+"' />" +
                     "</filter>" +
                 "</link-entity>" +
             "</entity>" +
@@ -158,60 +228,12 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
                 console.log("Error recuperando la variable de entorno");
             }
         );
-
-        //Get all reasons
-        const fetchMotivos = "<fetch>" +
-            "<entity name='p3i_reason' >" +
-            "   <attribute name='p3i_name' />" +
-            "   <attribute name='p3i_code' />" +
-            "</entity>" +
-            "</fetch>";
-        
-        this._context.webAPI.retrieveMultipleRecords("p3i_reason", "?fetchXml=" + fetchMotivos).then
-        (
-        function (params: ComponentFramework.WebApi.RetrieveMultipleResponse) {
-
-            thisRefTemp._listReason = params.entities;       
-        },
-        function (error: any) {
-
-            console.log("Error recuperando los Motivos");
-        });
-
-        //Get all document types
-        const fetchTipoDocumentos = "<fetch>" +
-            "<entity name='p3i_documenttype' >" +
-            "   <attribute name='p3i_name' />" +
-            "   <attribute name='p3i_code' />" +
-            "</entity>" +
-            "</fetch>";
-
-        this._context.webAPI.retrieveMultipleRecords("p3i_documenttype", "?fetchXml=" + fetchTipoDocumentos).then
-        (
-        function (params: ComponentFramework.WebApi.RetrieveMultipleResponse) {
-
-            thisRefTemp._listDocType = params.entities;                       
-        },
-        function (error: any) {
-
-            console.log("Error recuperando los Tipos de documentos");
-        });
-
-        this._userName = Xrm.Utility.getGlobalContext().userSettings.userName;
-        const contactRecord = this._context.parameters.contactEntity.raw ? this._context.parameters.contactEntity.raw : undefined;
-        if(contactRecord)
-        {
-            this._contactGuid = contactRecord[0].id;
-            this._contactName = contactRecord[0].name!;
-        } 
-        //this._contactGuid = Xrm.Page.getAttribute("p3i_contacto").getValue()[0].id;
-               
-        console.log("Contact GUID method 2 : "+ this._contactGuid);
     }
 
     private onload() 
     {
         let thisRef = this;
+        const supportedfiles =  this._supportedfiles;
         new Dropzone(this._formDropZone, 
         {
             acceptedFiles: supportedfiles,
@@ -270,29 +292,29 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         this._labelFile.className = "text-font";
         this._labelFile.innerHTML = FileToUpload.fileName;
 
-        let dropdownmotivo = document.createElement("select");
+        /*let dropdownmotivo = document.createElement("select");
         dropdownmotivo.id = "p3i_reasonid";
-        this._reason = dropdownmotivo;
+        this._reason = dropdownmotivo;*/
 
-        let dropdowntipodocumento = document.createElement("select");
+        /*let dropdowntipodocumento = document.createElement("select");
         dropdowntipodocumento.id = "p3i_documenttypeid";
-        this._doctype = dropdowntipodocumento;
+        this._doctype = dropdowntipodocumento;*/
 
-        this._listReason.forEach(function (motivo)
+        /*this._listReason.forEach(function (motivo)
         {
             let option = document.createElement("option");
             option.value = motivo.p3i_code;
             option.text = motivo.p3i_name;
             dropdownmotivo.appendChild(option);
-        });
+        });*/
 
-        this._listDocType.forEach(function (tipoDoc) 
+        /*this._listDocType.forEach(function (tipoDoc) 
         {
             let option = document.createElement("option");
             option.value = tipoDoc.p3i_code;
             option.text = tipoDoc.p3i_name;
             dropdowntipodocumento.appendChild(option);
-        });
+        });*/
        
         this._textAreaNote = document.createElement("textarea");
         this._textAreaNote.rows = 4;
@@ -317,7 +339,7 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         this._divFile.appendChild(_divFileContainer);        
         
         _divFileContainer.innerHTML = "<br/><table style='width:100%;'>"+
-            "<tr>" +
+            /*"<tr>" +
             "<td>Document Type</td>" +
             "</tr>" +
             "<tr>" +
@@ -328,7 +350,7 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
             "</tr>" +
             "<tr>" +
             "<td id='reasonCell' style='width:100%'></td>" +
-            "</tr>" +
+            "</tr>" +*/
             "<tr>" +
             "<td>Notes</td>" +
             "</tr>" +
@@ -338,8 +360,8 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
             "</table>" +
             "<br/>";
         
-        $("#docTypeCell")[0].appendChild(this._doctype);
-        $("#reasonCell")[0].appendChild(this._reason);
+        //$("#docTypeCell")[0].appendChild(this._doctype);
+        //$("#reasonCell")[0].appendChild(this._reason);
         $("#notesCell")[0].appendChild(this._textAreaNote);
 
         $("#divFileContainer_" + FileToUpload.fileId)[0].appendChild(this._buttonFlow);
@@ -348,18 +370,13 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         $("#divFileContainer_" + FileToUpload.fileId)[0].appendChild(this._brElement.cloneNode());
         $("#divFileContainer_" + FileToUpload.fileId)[0].appendChild(this._labelFile);
     }
-
-    private onButtonClickClose(event: Event): void 
-    {
-        this._divFile.children[0].remove();
-    }
-
+    
     private onButtonClick(event: Event): void
     {
-        const reasonText = $("#p3i_reasonid option:selected").text();
-        const reasonId = $("#p3i_reasonid option:selected").val();
-        const doctypeText = $("#p3i_documenttypeid option:selected").text();
-        const doctypeId = $("#p3i_documenttypeid option:selected").val();
+        //const reasonText = $("#p3i_reasonid option:selected").text();
+        //const reasonId = $("#p3i_reasonid option:selected").val();
+        //const doctypeText = $("#p3i_documenttypeid option:selected").text();
+        //const doctypeId = $("#p3i_documenttypeid option:selected").val();
         const noteText = $("#notaid").val() != null ? $("#notaid").val() : "";
 
         const req = new XMLHttpRequest();
@@ -371,10 +388,10 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
             "filesize": "" + this._attachedFile["filesize"] + "",
             "mimetype": "" + this._attachedFile["mimetype"] + "",
             "documentbody": "" + this._attachedFile["documentbody"] + "",
-            "reasonText": "" + reasonText + "",
-            "reasonId": "" + reasonId + "",
-            "doctypeText": "" + doctypeText + "",
-            "doctypeId": "" + doctypeId + "",
+            //"reasonText": "" + reasonText + "",
+            //"reasonId": "" + reasonId + "",
+            //"doctypeText": "" + doctypeText + "",
+            //"doctypeId": "" + doctypeId + "",
             "recordId": "" + this.entityReference.id + "",
             "contactId": ""+ this._contactGuid +"",
             "contactName": ""+ this._contactName +"",
@@ -386,33 +403,10 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         this._divFile.children[0].remove();
     }
 
-    private generateSrcUrl(datatype: string, fileType: string, fileContent: string): string {
-        return "data:" + datatype + "/" + fileType + ";base64, " + fileContent;
-    }
-
-    private uploadImgHower() {
-        this._imgUpload.setAttribute("class", "uploadImgHower");
-    }
-
-    private uploadImgHowerOut() {
-        this._imgUpload.setAttribute("class", "uploadImgHowerOut");
-    }
-
-    private uploadImgonClick() {
-        this._formDropZone.click();
-    }
-
-    private CollectionNameFromLogicalName(entityLogicalName: string): string 
+    private onButtonClickClose(event: Event): void 
     {
-        if (entityLogicalName[entityLogicalName.length - 1] != 's') {
-            return `${entityLogicalName}s`;
-        }
-        else 
-        {
-            return `${entityLogicalName}es`;
-        }
+        this._divFile.children[0].remove();
     }
-
 
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
