@@ -9,7 +9,7 @@ After you have installed Power Platform CLI and Node.js, open the Developer Comm
 2)	Using the developer command prompt for visual studio apply the command: cd <folder path>
 The above command will take you to the folder created in the step 1. Next step is to create a new component project by passing the basic parameters using the below command. Component type parameter can be either field or dataset. Out of the two only field is available for canvas apps while both are available for model-driven apps.
 3)	pac pcf init --namespace <specify your namespace here> --name <name of the component> --template <component type>
- Example: pac pcf init --namespace PCFFileUploader --name PCFFileUploader --template field
+  Example: pac pcf init --namespace PCFFileUploader --name PCFFileUploader --template field
 Once the project is created, you have to bring in all the required project dependencies. For which you have to run the command as below
 4)	npm install
 Then in order to complete the configuration of the PCF run the following commands
