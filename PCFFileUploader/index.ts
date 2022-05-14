@@ -4,19 +4,7 @@ import * as Dropzone from "dropzone";
 import * as toastr from "toastr";
 
 //Supported files
-//let supportedfiles = "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation";
 //let supportedfiles = "application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/png";
-
-class EntityReference
-{
-    id: string;
-    typeName: string;
-    constructor(typeName: string, id: string) 
-    {
-        this.id = id;
-        this.typeName = typeName;
-    }
-}
 
 class AttachedFile implements ComponentFramework.FileObject
 {
@@ -36,8 +24,8 @@ class AttachedFile implements ComponentFramework.FileObject
 }
 
 export class PCFFileUploader implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-
-    private entityReference: EntityReference;
+    private _entityId : string;
+    private _entityName : string;
 
     private _context: ComponentFramework.Context<IInputs>;
     private _container: HTMLDivElement;
@@ -88,11 +76,8 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
     public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void
     {
         this._context = context;
-
-        this.entityReference = new EntityReference(
-            (<any>context).page.entityTypeName,
-            (<any>context).page.entityId
-        )
+        this._entityId = (<any>context).page.entityId;
+        this._entityName = (<any>context).page.entityTypeName;
 
         this._container = document.createElement("div");
         this._brElement = document.createElement("br");
@@ -136,7 +121,7 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         //get input parameters
         this._supportedfiles = this._context.parameters.supporteFiles.raw ? this._context.parameters.supporteFiles.raw : "";
         this._environmentVariableFlow = this._context.parameters.environmentVariableFlow.raw ? this._context.parameters.environmentVariableFlow.raw : "";      
-        this.setFlowURL(this._environmentVariableFlow);        
+        this.setFlowURL(this._environmentVariableFlow);
         const contactRecord = this._context.parameters.contactEntity.raw ? this._context.parameters.contactEntity.raw : undefined;
         if(contactRecord)
         {
@@ -392,7 +377,7 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
             //"reasonId": "" + reasonId + "",
             //"doctypeText": "" + doctypeText + "",
             //"doctypeId": "" + doctypeId + "",
-            "recordId": "" + this.entityReference.id + "",
+            "recordId": "" + this._entityId + "",
             "contactId": ""+ this._contactGuid +"",
             "contactName": ""+ this._contactName +"",
             "userName": "" + this._userName +"",
