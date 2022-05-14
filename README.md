@@ -32,6 +32,8 @@ Once the above command is executed successfully, you can find the solution filed
 Until here the PCF is already published in the environment. Now you have to create a Cloud flow because the PCF in the end is making a http request to a cloud flow.
 Create a Cloud flow with an Http request trigger.
  
+ ![image](https://user-images.githubusercontent.com/5630463/168445548-264fbeb6-f2d5-4475-b558-c4890563f06d.png)
+ 
 And for the schema of the trigger you could use the following:
 {
     "type": "object",
@@ -68,13 +70,20 @@ And for the schema of the trigger you could use the following:
 
 Keep in mind that his payload is sent from the PCF, so if you want to add or remove parameters in this schema you have to change the code in the PCF to send the right payload to the cloud flow.
 The function in the PCF which is in charge to send the http request is onButtonClick:
- 
+
+![image](https://user-images.githubusercontent.com/5630463/168445565-922cfa2e-7f93-46ce-9475-836df5dee18b.png)
+
 Then you have to complete the cloud flow in order to create the file in SharePoint, for example:
- 
+
+ ![image](https://user-images.githubusercontent.com/5630463/168445577-14e930e8-5b0c-4abf-a893-aa95e25d8798.png)
+
 As you can see, first I create the file then I update it with some properties, and again keep in mind that first you will have to create the columns in the SharePoint library and then you can update those columns in the cloud flow with the “Update file properties” action.
- 
+
+![image](https://user-images.githubusercontent.com/5630463/168445584-1f9a6cc1-7552-4d08-b6fb-0863e70981d9.png)
+
 19)	Finally create a environment variable with the URL of the cloud flow, for example:
- 
+
+ ![image](https://user-images.githubusercontent.com/5630463/168445589-90433435-39da-4747-b636-b4283b390f36.png)
 
 20)	And now you have all the components to allow the PCF upload a document to SharePoint. So the last step is go to the desired entity form and configure a text field like this:
  ![image](https://user-images.githubusercontent.com/5630463/168445517-554f04c1-09aa-4001-8e30-40ed215a259e.png)
