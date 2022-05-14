@@ -1,4 +1,9 @@
 I assume that you have the Microsoft Power Platform CLI installed in your machine. If not, please download it and install it before continue. Same for node.js
+
+Just in case here are the links:
+Power Platform CLI: https://aka.ms/PowerAppsCLI
+Node.js: https://nodejs.org/es/download/
+
 After you have installed Power Platform CLI and Node.js, open the Developer Command Prompt for Visual Studio. This is the tool which you will be using for most of our operations except some Editor tools to make changes to our code. First step is to create a folder where all our component related files and folders will be present. 
 1)	Manually create a folder
 2)	Using the developer command prompt for visual studio apply the command: cd <folder path>
