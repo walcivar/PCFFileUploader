@@ -122,9 +122,12 @@ As you can see, first I create the file then I update it with some properties, a
 
 There are three input parameters:
 1)	A a lookup field. In my case I used the contact lookup field because I needed the GUID of the contact to create the right path of the file in the cloud flow in order to create it in SharePoint. If you don’t want a lookup field as input parameter, change the code of the PCF. 
-2)	SupportedFiles, you could use this: 
+
+3)	SupportedFiles, you could use this: 
 application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/png
+
 If you want more type of files, please add it with a comma.
+
 3)	EnvironmentVariableFlow, which should be the schema name of that variable.
 
 21)	Save and publish the form
