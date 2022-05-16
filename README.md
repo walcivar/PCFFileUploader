@@ -10,6 +10,7 @@ Node.js: https://nodejs.org/es/download/
 After you have installed Power Platform CLI and Node.js, open the Developer Command Prompt for Visual Studio. This is the tool which you will be using for most of the operations. First step is to create a folder where all component like files and folders will be present. 
 1)	Manually create a folder
 2)	Using the developer command prompt for visual studio apply the command: cd <folder path>
+  
   The above command will take you to the folder created in the step 1. Next step is to create a new component project by passing the basic parameters using the below command. Component type parameter can be either field or dataset. Out of the two only field is available for canvas apps while both are available for model-driven apps.
 3)	pac pcf init --namespace <specify your namespace here> --name <name of the component> --template <component type>
   
