@@ -1,5 +1,5 @@
 If you want, you can download the code and make some changes before uploading it to your environment, such as changing the solution prefix.
-And if you want to create a PCF from scratch by reusing the code from the index.ts file, follow all the steps below.
+But if you want to create a PCF from scratch by reusing the code from the index.ts file, follow all the steps below.
 
 I assume that you have the Microsoft Power Platform CLI installed in your machine. If not, please download it and install it before continue. Same for node.js
 
