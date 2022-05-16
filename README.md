@@ -40,22 +40,27 @@ After you have installed Power Platform CLI and Node.js, open the Developer Comm
 13)	Check if the errors in the index.ts are gone, if the only error is the contactEntity from parameter, then run the following command: npm run build, after run this command, that error will disappear.
   
 14)	Run: npm run build
-  Assuming that until here you are good and without errors, then the next step is to package the PCF in order to use it in your Dataverse environment. For that first create a new folder inside the component folder with a name of your choice. for example if the folder of step 1 was called PCFFileUploader, then create a folder called PCFFileUploaderSolution, the path would be ("root path"\PCFFileUploader\PCFFileUploader\PCFFileUploaderSolution)
+
+Assuming that until here you are good and without errors, then the next step is to package the PCF in order to use it in your Dataverse environment. For that first create a new folder inside the component folder with a name of your choice. for example if the folder of step 1 was called PCFFileUploader, then create a folder called PCFFileUploaderSolution, the path would be ("root path"\PCFFileUploader\PCFFileUploader\PCFFileUploaderSolution)
   
 Once the folder is created then using the command line, navigate to the newly created folder. From there only we will be running all our future commands. For example: cd "root path"\PCFFileUploader\PCFFileUploader\PCFFileUploaderSolution
   
 Now you have to create a new solutions project using the below command. If you prefer to use any of the existing publisher, please give that name or else, you can provide the details of your choice but it should be unique to the environment.
   
 15)	Run: pac solution init --publisher-name "publisher name" --publisher-prefix "prefix"
+
 Next step is to add reference to the components which you created to the new solution project. You can use the below command for that. Make sure the path you are providing should be the folder where the component is located to be specific where your project file is located.
   
 16)	Run: pac solution add-reference --path "root path"\PCFFileUploader
+
 Next step is to create your solution file. For that run the command mentioned below. Only for the first time you have to use the restore parameter. After the first time, you can use msbuild /t:build and it should work.
   
 17)	Run: msbuild /t:build /restore
+
 Once the above command is executed successfully, you can find the solution filed in \bin\debug or \bin\release folder. Next step is to manually import the solution to your Dataverse environment through the portal just like you import any other solution.
   
 18)	Upload the solution and publish it
+
 Until here the PCF is already published in the environment. Now you have to create a Cloud flow because the PCF in the end is making a http request to a cloud flow.
 Create a Cloud flow with an Http request trigger.
  
