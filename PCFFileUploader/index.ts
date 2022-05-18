@@ -129,6 +129,8 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
             this._contactName = contactRecord[0].name!;
         }
 
+        let thisRefTemp = this;
+
         //Get all reasons
         /*const fetchMotivos = "<fetch>" +
             "<entity name='p3i_reason' >" +
@@ -168,6 +170,8 @@ export class PCFFileUploader implements ComponentFramework.StandardControl<IInpu
         });*/
         
         this.onload();
+
+        Xrm.Navigation.navigateTo
     }
 
     private generateSrcUrl(datatype: string, fileType: string, fileContent: string): string {
